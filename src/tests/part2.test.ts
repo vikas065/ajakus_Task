@@ -67,7 +67,7 @@ describe("task access control", () => {
       },
       body: JSON.stringify({ title: "viewer create attempt" }),
     });
-    expect(res.status).toBe(401);
+    expect(res.status).toBe(403);
   });
 
   // Test C
@@ -82,4 +82,17 @@ describe("task access control", () => {
     });
     expect(res.status).toBe(201);
   });
+
+  //Test D
+it("a member can update a task", async () => {
+    const res = await fetch(`${BASE_URL}/api/tasks/${taskId}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${tokens.arjun}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ title: "member update — baseline" }),
+    });
+    expect(res.status).toBe(200);
+});
 });
